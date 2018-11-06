@@ -1,6 +1,6 @@
 # Router Interface Resolver
 
-This package provides a resolver for [Code Inc.'s router](https://github.com/CodeIncHQ/Router) using [RoutableRequestHandlerInterface](src/RoutableRequestHandlerInterface.php) and [MultiRoutableRequestHandlerInterface](src/MultiRoutableRequestHandlerInterface.php) interfaces to detect and configure request handlers.
+This package provides a resolver for [Code Inc.'s router](https://github.com/CodeIncHQ/Router) using [`RoutableRequestHandlerInterface`](src/RoutableRequestHandlerInterface.php) and [`MultiRoutableRequestHandlerInterface`](src/MultiRoutableRequestHandlerInterface.php) interfaces to detect and configure request handlers.
 
 ## Installation
 
