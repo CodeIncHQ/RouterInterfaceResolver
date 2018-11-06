@@ -16,17 +16,17 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     12/10/2018
-// Project:  RouterInterfaceResolver
+// Project:  RouterRoutableResolver
 //
 declare(strict_types=1);
-namespace CodeInc\RouterInterfaceResolver;
+namespace CodeInc\RouterRoutableResolver;
 use Psr\Http\Server\RequestHandlerInterface;
 
 
 /**
  * Interface RoutableRequestHandlerInterface
  *
- * @package CodeInc\RouterInterfaceResolver
+ * @package CodeInc\RouterRoutableResolver
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 interface RoutableRequestHandlerInterface extends RequestHandlerInterface

@@ -1,8 +1,8 @@
 {
-  "name": "codeinc/router-interface-resolver",
+  "name": "codeinc/router-routable-resolver",
   "version": "1.0.0",
   "description": "A Code Inc.'s router resolver using interfaces to detect and configure request handlers",
-  "homepage": "https://github.com/CodeIncHQ/RouterInterfaceResolver",
+  "homepage": "https://github.com/CodeIncHQ/RouterRoutableResolver",
   "type": "library",
   "license": "MIT",
   "require": {
@@ -18,10 +18,10 @@
     "codeinc/error-renderer": "^1.2"
   },
   "autoload": {
-    "psr-4": {"CodeInc\\RouterInterfaceResolver\\": "src/"}
+    "psr-4": {"CodeInc\\RouterRoutableResolver\\": "src/"}
   },
   "autoload-dev": {
-    "psr-4": { "CodeInc\\RouterInterfaceResolver\\Tests\\": "tests/" }
+    "psr-4": { "CodeInc\\RouterRoutableResolver\\Tests\\": "tests/" }
   },
   "authors": [
     {

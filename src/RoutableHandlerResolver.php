@@ -16,10 +16,10 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     12/10/2018
-// Project:  RouterInterfaceResolver
+// Project:  RouterRoutableResolver
 //
 declare(strict_types=1);
-namespace CodeInc\RouterInterfaceResolver;
+namespace CodeInc\RouterRoutableResolver;
 use CodeInc\DirectoryClassesIterator\RecursiveDirectoryClassesIterator;
 use CodeInc\Router\Exceptions\NotARoutableHandlerException;
 use CodeInc\Router\Resolvers\StaticHandlerResolver;
@@ -28,7 +28,7 @@ use CodeInc\Router\Resolvers\StaticHandlerResolver;
 /**
  * Class RoutableHandlerResolver
  *
- * @package CodeInc\RouterInterfaceResolver
+ * @package CodeInc\RouterRoutableResolver
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class RoutableHandlerResolver extends StaticHandlerResolver
