@@ -1,6 +1,6 @@
 {
   "name": "codeinc/router-routable-resolver",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Code Inc.'s router resolver using interfaces to detect and configure request handlers",
   "homepage": "https://github.com/CodeIncHQ/RouterRoutableResolver",
   "type": "library",
