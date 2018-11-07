@@ -84,9 +84,9 @@ class RoutableResolver extends StaticResolver
         if (!$class->isAbstract()) {
             $routeAdded = false;
             if ($class->isSubclassOf(RoutableControllerInterface::class)) {
-                /** @var RoutableControllerInterface $controllerClass */
                 /** @noinspection PhpStrictTypeCheckingInspection */
-                $this->addRoute($controllerClass::getRoute(), $controllerClass);
+                /** @noinspection PhpUndefinedMethodInspection */
+                $this->addRoute(($class->getName())::getRoute(), $class->getName());
                 $routeAdded = true;
             }
             if ($class->isSubclassOf(MultiRoutableControllerInterface::class)) {
