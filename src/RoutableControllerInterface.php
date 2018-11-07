@@ -20,21 +20,21 @@
 //
 declare(strict_types=1);
 namespace CodeInc\RouterRoutableResolver;
-use Psr\Http\Server\RequestHandlerInterface;
+use CodeInc\Router\ControllerInterface;
 
 
 /**
- * Interface MultiRoutableRequestHandlerInterface
+ * Interface RoutableControllerInterface
  *
  * @package CodeInc\RouterRoutableResolver
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface MultiRoutableRequestHandlerInterface extends RequestHandlerInterface
+interface RoutableControllerInterface extends ControllerInterface
 {
     /**
-     * Returns the routes for the current request handler.
+     * Returns the route for the current controller.
      *
-     * @return string[]|iterable
+     * @return string
      */
-    public static function getRoutes():iterable;
+    public static function getRoute():string;
 }

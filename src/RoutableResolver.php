@@ -20,73 +20,84 @@
 //
 declare(strict_types=1);
 namespace CodeInc\RouterRoutableResolver;
+use CodeInc\DirectoryClassesIterator\DirectoryClassesIterator;
 use CodeInc\DirectoryClassesIterator\RecursiveDirectoryClassesIterator;
-use CodeInc\RouterRoutableResolver\Exceptions\NotARoutableHandlerException;
-use CodeInc\Router\Resolvers\StaticHandlerResolver;
+use CodeInc\Router\Resolvers\StaticResolver;
+use CodeInc\RouterRoutableResolver\Exceptions\NotARoutableControllerException;
 
 
 /**
- * Class RoutableHandlerResolver
+ * Class RoutableResolver
  *
  * @package CodeInc\RouterRoutableResolver
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class RoutableHandlerResolver extends StaticHandlerResolver
+class RoutableResolver extends StaticResolver
 {
     /**
      * RoutableHandlerResolver constructor.
      *
-     * @param iterable|null $handlerClasses
+     * @param iterable|null $classes
      * @throws \ReflectionException
      */
-    public function __construct(?iterable $handlerClasses = null)
+    public function __construct(?iterable $classes = null)
     {
         parent::__construct();
-        if ($handlerClasses) {
-            $this->addHandlers($handlerClasses);
+        if ($classes) {
+            $this->addControllers($classes);
         }
     }
 
     /**
      * Adds multiple routable handlers to the resolver.
      *
-     * @param iterable $handlerClasses
+     * @param iterable $classes
      * @throws \ReflectionException
      */
-    public function addHandlers(iterable $handlerClasses):void
+    public function addControllers(iterable $classes):void
     {
-        foreach ($handlerClasses as $handlersClass) {
-            $this->addHandler($handlersClass);
+        foreach ($classes as $controllerClass) {
+            $this->addController($controllerClass);
         }
     }
 
     /**
      * Adds a routable handler to the resolver.
      *
-     * @param string $handlerClass
-     * @throws NotARoutableHandlerException
+     * @param string $controllerClass
+     * @throws NotARoutableControllerException
      * @throws \ReflectionException
      */
-    public function addHandler(string $handlerClass):void
+    public function addController(string $controllerClass):void
     {
-        $reflectionClass = new \ReflectionClass($handlerClass);
-        if (!$reflectionClass->isAbstract()) {
+        $this->addClass(new \ReflectionClass($controllerClass));
+    }
+
+    /**
+     * Adds a routable to the resolver.
+     *
+     * @param \ReflectionClass $class
+     * @throws NotARoutableControllerException
+     */
+    private function addClass(\ReflectionClass $class):void
+    {
+        if (!$class->isAbstract()) {
             $routeAdded = false;
-            if ($reflectionClass->isSubclassOf(RoutableRequestHandlerInterface::class)) {
-                /** @var RoutableRequestHandlerInterface $handlerClass */
+            if ($class->isSubclassOf(RoutableControllerInterface::class)) {
+                /** @var RoutableControllerInterface $controllerClass */
                 /** @noinspection PhpStrictTypeCheckingInspection */
-                $this->addRoute($handlerClass::getRoute(), $handlerClass);
+                $this->addRoute($controllerClass::getRoute(), $controllerClass);
                 $routeAdded = true;
             }
-            if ($reflectionClass->isSubclassOf(MultiRoutableRequestHandlerInterface::class)) {
-                /** @var MultiRoutableRequestHandlerInterface $handlerClass */
-                foreach ($handlerClass::getRoutes() as $route) {
-                    $this->addRoute($route, $handlerClass);
+            if ($class->isSubclassOf(MultiRoutableControllerInterface::class)) {
+                /** @var MultiRoutableControllerInterface $controllerClass */
+                foreach ($controllerClass::getRoutes() as $route) {
+                    $this->addRoute($route, $class->getName());
                     $routeAdded = true;
                 }
             }
             if (!$routeAdded) {
-                throw new NotARoutableHandlerException($handlerClass);
+                throw new NotARoutableControllerException($class->getName());
             }
         }
     }
@@ -96,15 +107,19 @@ class RoutableHandlerResolver extends StaticHandlerResolver
      * or MultiRoutableRequestHandlerInterface
      *
      * @param string $dirPath
-     * @throws \ReflectionException
+     * @param bool $recursively
      */
-    public function addDirectory(string $dirPath):void
+    public function addDirectory(string $dirPath, bool $recursively = true):void
     {
-        foreach (new RecursiveDirectoryClassesIterator($dirPath) as $class)
+        $iterator = $recursively
+            ? new RecursiveDirectoryClassesIterator($dirPath)
+            : new DirectoryClassesIterator($dirPath);
+
+        foreach ($iterator as $class)
         {
-            if ($class->isSubclassOf(RoutableRequestHandlerInterface::class)
-                || $class->isSubclassOf(MultiRoutableRequestHandlerInterface::class)) {
-                $this->addHandler($class->getName());
+            if (!$class->isAbstract() && ($class->isSubclassOf(RoutableControllerInterface::class)
+                    || $class->isSubclassOf(MultiRoutableControllerInterface::class))) {
+                $this->addClass($class);
             }
         }
     }
