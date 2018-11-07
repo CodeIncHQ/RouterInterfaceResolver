@@ -21,17 +21,17 @@
 declare(strict_types=1);
 namespace CodeInc\RouterRoutableResolver\Exceptions;
 use CodeInc\Router\Exceptions\RouterException;
-use CodeInc\RouterRoutableResolver\MultiRoutableRequestHandlerInterface;
-use CodeInc\RouterRoutableResolver\RoutableRequestHandlerInterface;
+use CodeInc\RouterRoutableResolver\MultiRoutableControllerInterface;
+use CodeInc\RouterRoutableResolver\RoutableControllerInterface;
 
 
 /**
- * Class NotARoutableHandlerException
+ * Class NotARoutableControllerException
  *
  * @package CodeInc\RouterRoutableResolver\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class NotARoutableHandlerException extends \LogicException implements RouterException
+class NotARoutableControllerException extends \LogicException implements RouterException
 {
     /**
      * @var string
@@ -39,7 +39,7 @@ class NotARoutableHandlerException extends \LogicException implements RouterExce
     private $class;
 
     /**
-     * NotARoutableHandlerException constructor.
+     * NotARoutableControllerException constructor.
      *
      * @param string $class
      * @param int $code
@@ -49,9 +49,9 @@ class NotARoutableHandlerException extends \LogicException implements RouterExce
     {
         $this->class = $class;
         parent::__construct(
-            sprintf("The class '%s' is not a routable handler. All routable handler must implement '%s' or '%s' "
+            sprintf("The class '%s' is not a routable controller. All routable controllers must implement '%s' or '%s' "
                 ."and provide a least one valid route.",
-                $class, RoutableRequestHandlerInterface::class, MultiRoutableRequestHandlerInterface::class),
+                $class, RoutableControllerInterface::class, MultiRoutableControllerInterface::class),
             $code,
             $previous
         );
