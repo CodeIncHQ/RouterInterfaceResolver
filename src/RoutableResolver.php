@@ -91,9 +91,15 @@ class RoutableResolver extends StaticResolver
             }
             if ($class->isSubclassOf(MultiRoutableControllerInterface::class)) {
                 /** @var MultiRoutableControllerInterface $controllerClass */
-                foreach ($controllerClass::getRoutes() as $route) {
-                    $this->addRoute($route, $class->getName());
-                    $routeAdded = true;
+                /** @noinspection PhpUndefinedMethodInspection */
+                foreach (($class->getName())::getRoutes() as $route) {
+                    /** @noinspection PhpUndefinedMethodInspection */
+                    if (!$class->isSubclassOf(RoutableControllerInterface::class)
+                        || $route != ($class->getName())::getRoute())
+                    {
+                        $this->addRoute($route, $class->getName());
+                        $routeAdded = true;
+                    }
                 }
             }
             if (!$routeAdded) {
